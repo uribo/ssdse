@@ -20,6 +20,15 @@ read_ssdse_a <- function(path, lang, ...) {
     d[-1, ]
   d <-
     d[-1, ]
+
+  d <-
+    d %>%
+    readr::type_convert(col_types = readr::cols(
+      .default = readr::col_double(),
+      SSDSE.A.2022 = readr::col_character(),
+      prefecture = readr::col_character(),
+      municipality = readr::col_character()))
+
   if (lang == "ja") {
     d <-
       d %>%
@@ -46,6 +55,14 @@ read_ssdse_b <- function(path, lang, ...) {
   # assertr::verify(d, dim(d) == c(565, 110)) # B
   d <-
     d[-1, ]
+
+  d <-
+    d %>%
+    readr::type_convert(col_types = readr::cols(
+      .default = readr::col_double(),
+      Code = readr::col_character(),
+      Prefecture = readr::col_character()))
+
   if (lang == "ja") {
     d <-
       d %>%
