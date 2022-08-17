@@ -49,11 +49,11 @@ read_ssdse_b <- function(path, lang, ...) {
   if (lang == "ja") {
     d <-
       d %>%
-      convert_ssdse_colname(id = "A", lang = "ja")
+      convert_ssdse_colname(id = "B", lang = "ja")
   } else if (lang == "en") {
     d <-
       d %>%
-      convert_ssdse_colname(id = "A", lang = "en")
+      convert_ssdse_colname(id = "B", lang = "en")
   }
   d
 }
