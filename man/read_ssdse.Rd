@@ -5,14 +5,16 @@
 \alias{read_ssdse_b}
 \title{Read specific SSDSE data file}
 \usage{
-read_ssdse_a(path, lang, ...)
+read_ssdse_a(path, lang, pack = TRUE, ...)
 
-read_ssdse_b(path, lang, ...)
+read_ssdse_b(path, lang, pack = TRUE, ...)
 }
 \arguments{
 \item{path}{path to file}
 
 \item{lang}{column name language}
+
+\item{pack}{packing for common variables}
 
 \item{...}{not use}
 }

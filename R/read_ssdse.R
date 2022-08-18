@@ -2,10 +2,12 @@
 #'
 #' @param path path to file
 #' @param lang column name language
+#' @param pack packing for common variables
 #' @param ... not use
+#' @import rlang
 #' @export
 #' @rdname read_ssdse
-read_ssdse_a <- function(path, lang, ...) {
+read_ssdse_a <- function(path, lang, pack = TRUE, ...) {
   lang <-
     rlang::arg_match(lang,
                      c("en", "ja"))
@@ -28,22 +30,12 @@ read_ssdse_a <- function(path, lang, ...) {
       SSDSE.A.2022 = readr::col_character(),
       prefecture = readr::col_character(),
       municipality = readr::col_character()))
-
-  if (lang == "ja") {
-    d <-
-      d %>%
-      convert_ssdse_colname(id = "A", lang = "ja")
-  } else if (lang == "en") {
-    d <-
-      d %>%
-      convert_ssdse_colname(id = "A", lang = "en")
-  }
-  d
+  tweak_ssdse_out(d, id = "A", lang, pack)
 }
 
 #' @export
 #' @rdname read_ssdse
-read_ssdse_b <- function(path, lang, ...) {
+read_ssdse_b <- function(path, lang, pack = TRUE, ...) {
   lang <-
     rlang::arg_match(lang,
                      c("en", "ja"))
@@ -62,17 +54,64 @@ read_ssdse_b <- function(path, lang, ...) {
       .default = readr::col_double(),
       Code = readr::col_character(),
       Prefecture = readr::col_character()))
+  tweak_ssdse_out(d, id = "B", lang, pack)
+}
 
+tweak_ssdse_out <- function(data, id, lang, pack) {
   if (lang == "ja") {
     d <-
-      d %>%
-      convert_ssdse_colname(id = "B", lang = "ja")
+      data %>%
+      convert_ssdse_colname(id = id, lang = "ja")
   } else if (lang == "en") {
     d <-
-      d %>%
-      convert_ssdse_colname(id = "B", lang = "en")
+      data %>%
+      convert_ssdse_colname(id = id, lang = "en")
+  }
+  if (pack == TRUE) {
+    d <-
+      pack_ssdse_vars(d)
   }
   d
+}
+
+pack_ssdse_vars <- function(data) {
+  data %>%
+    tidyr::pack(
+      A = tidyselect::matches("A[0-9]{1,}"),
+      B = tidyselect::matches("B[0-9]{1,}"),
+      C = tidyselect::matches("C[0-9]{1,}"),
+      D = tidyselect::matches("D[0-9]{1,}"),
+      E = tidyselect::matches("E[0-9]{1,}"),
+      `F` = tidyselect::matches("F[0-9]{1,}"),
+      G = tidyselect::matches("G[0-9]{1,}"),
+      H = tidyselect::matches("H[0-9]{1,}"),
+      I = tidyselect::matches("I[0-9]{1,}"),
+      J = tidyselect::matches("J[0-9]{1,}"),
+      K = tidyselect::matches("K[0-9]{1,}"),
+      L = tidyselect::matches("L[0-9]{1,}"),
+      !!intToUtf8(c(20154L, 21475L, 12539L, 19990L, 24111L)) := tidyselect::starts_with(
+      intToUtf8(c(20154L, 21475L, 12539L, 19990L, 24111L))),
+      !!intToUtf8(c(33258L, 28982L, 29872L, 22659L)) := tidyselect::starts_with(
+        intToUtf8(c(33258L, 28982L, 29872L, 22659L))),
+      !!intToUtf8(c(32076L, 28168L, 22522L, 30436L)) := tidyselect::starts_with(
+        intToUtf8(c(32076L, 28168L, 22522L, 30436L))),
+      !!intToUtf8(c(25945L, 32946L)) := tidyselect::starts_with(
+        intToUtf8(c(25945L, 32946L))),
+      !!intToUtf8(c(21172L, 20685L)) := tidyselect::starts_with(
+        intToUtf8(c(21172L, 20685L))),
+      !!intToUtf8(c(25991L, 21270L, 12539L, 12473L, 12509L, 12540L, 12484L)) := tidyselect::starts_with(
+        intToUtf8(c(25991L, 21270L, 12539L, 12473L, 12509L, 12540L, 12484L))),
+      !!intToUtf8(c(23621L, 20303L)) := tidyselect::starts_with(
+        intToUtf8(c(23621L, 20303L))),
+      !!intToUtf8(c(20581L, 24247L, 12539L, 21307L, 30274L)) := tidyselect::starts_with(
+        intToUtf8(c(20581L, 24247L, 12539L, 21307L, 30274L))),
+      !!intToUtf8(c(31119L, 31049L, 12539L, 31038L, 20250L, 20445L, 38556L)) := tidyselect::starts_with(
+        intToUtf8(c(31119L, 31049L, 12539L, 31038L, 20250L, 20445L, 38556L))),
+      !!intToUtf8(c(23478L, 35336L)) := tidyselect::starts_with(
+        intToUtf8(c(23478L, 35336L))),
+      .names_sep = "_") %>%
+    purrr::discard(
+      ~ identical(ncol(.x), 0L))
 }
 
 convert_ssdse_colname <- function(data, id, lang) {

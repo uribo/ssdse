@@ -16,7 +16,10 @@ Depends:
 Imports:
     dplyr,
     tibble,
+    tidyselect,
+    tidyr,
     purrr,
+    readr,
     rlang,
     magrittr
 RoxygenNote: 7.2.1
