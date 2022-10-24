@@ -77,20 +77,20 @@ tweak_ssdse_out <- function(data, id, lang, pack) {
 pack_ssdse_vars <- function(data) {
   data %>%
     tidyr::pack(
-      A = tidyselect::matches("A[0-9]{1,}"),
-      B = tidyselect::matches("B[0-9]{1,}"),
-      C = tidyselect::matches("C[0-9]{1,}"),
-      D = tidyselect::matches("D[0-9]{1,}"),
-      E = tidyselect::matches("E[0-9]{1,}"),
-      `F` = tidyselect::matches("F[0-9]{1,}"),
-      G = tidyselect::matches("G[0-9]{1,}"),
-      H = tidyselect::matches("H[0-9]{1,}"),
-      I = tidyselect::matches("I[0-9]{1,}"),
-      J = tidyselect::matches("J[0-9]{1,}"),
-      K = tidyselect::matches("K[0-9]{1,}"),
-      L = tidyselect::matches("L[0-9]{1,}"),
+      A = tidyselect::matches("^A[0-9]{1,}$"),
+      B = tidyselect::matches("^B[0-9]{1,}$"),
+      C = tidyselect::matches("^C[0-9]{1,}$"),
+      D = tidyselect::matches("^D[0-9]{1,}$"),
+      E = tidyselect::matches("^E[0-9]{1,}$"),
+      `F` = tidyselect::matches("^F[0-9]{1,}$"),
+      G = tidyselect::matches("^G[0-9]{1,}$"),
+      H = tidyselect::matches("^H[0-9]{1,}$"),
+      I = tidyselect::matches("^I[0-9]{1,}$"),
+      J = tidyselect::matches("^J[0-9]{1,}$"),
+      K = tidyselect::matches("^K[0-9]{1,}$"),
+      L = tidyselect::matches("^L[0-9]{1,}$"),
       !!intToUtf8(c(20154L, 21475L, 12539L, 19990L, 24111L)) := tidyselect::starts_with(
-      intToUtf8(c(20154L, 21475L, 12539L, 19990L, 24111L))),
+        intToUtf8(c(20154L, 21475L, 12539L, 19990L, 24111L))),
       !!intToUtf8(c(33258L, 28982L, 29872L, 22659L)) := tidyselect::starts_with(
         intToUtf8(c(33258L, 28982L, 29872L, 22659L))),
       !!intToUtf8(c(32076L, 28168L, 22522L, 30436L)) := tidyselect::starts_with(
