@@ -57,6 +57,30 @@ read_ssdse_b <- function(path, lang, pack = TRUE, ...) {
   tweak_ssdse_out(d, id = "B", lang, pack)
 }
 
+#' @export
+#' @rdname read_ssdse
+read_ssdse_c <- function(path, lang, ...) {
+  lang <-
+    rlang::arg_match(lang,
+                     c("en", "ja"))
+  d <-
+    tibble::as_tibble(
+      utils::read.csv(path,
+                      skip = 0,
+                      fileEncoding = "Shift_JIS"))
+  d <-
+    d[-1, ]
+  d <-
+    d %>%
+    readr::type_convert(
+      col_types = readr::cols(
+        .default = readr::col_double(),
+        SSDSE.C.2022 = readr::col_character(),
+        Prefecture = readr::col_character(),
+        City = readr::col_character()))
+  tweak_ssdse_out(d, id = "C", lang, pack = FALSE)
+}
+
 tweak_ssdse_out <- function(data, id, lang, pack) {
   if (lang == "ja") {
     d <-

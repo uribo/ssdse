@@ -3,11 +3,14 @@
 \name{read_ssdse_a}
 \alias{read_ssdse_a}
 \alias{read_ssdse_b}
+\alias{read_ssdse_c}
 \title{Read specific SSDSE data file}
 \usage{
 read_ssdse_a(path, lang, pack = TRUE, ...)
 
 read_ssdse_b(path, lang, pack = TRUE, ...)
+
+read_ssdse_c(path, lang, ...)
 }
 \arguments{
 \item{path}{path to file}

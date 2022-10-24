@@ -3,5 +3,6 @@
 export("%>%")
 export(read_ssdse_a)
 export(read_ssdse_b)
+export(read_ssdse_c)
 import(rlang)
 importFrom(magrittr,"%>%")
