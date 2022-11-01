@@ -78,6 +78,31 @@ tweak_ssdse_out <- function(data, id, lang, pack) {
   d
 }
 
+#' @export
+#' @rdname read_ssdse
+read_ssdse_d <- function(path, lang, ...) {
+  lang <-
+    rlang::arg_match(lang,
+                     c("en", "ja"))
+  d <-
+    .read_ssdse_csv(path)
+  d <-
+    d %>%
+    readr::type_convert(
+      col_types = readr::cols(
+        .default = readr::col_double(),
+        SSDSE.D.2021 = readr::col_character(),
+        Code = readr::col_character(),
+        Prefecture = readr::col_character(),
+        MH01 = readr::col_character(),
+        MH02 = readr::col_character(),
+        MH03 = readr::col_character(),
+        MH04 = readr::col_character(),
+        MH51 = readr::col_character(),
+        MH52 = readr::col_character()))
+  tweak_ssdse_out(d, id = "D", lang, pack = FALSE)
+}
+
 #' @param version file version
 #' @export
 #' @rdname read_ssdse

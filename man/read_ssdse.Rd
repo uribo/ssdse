@@ -4,6 +4,7 @@
 \alias{read_ssdse_a}
 \alias{read_ssdse_b}
 \alias{read_ssdse_c}
+\alias{read_ssdse_d}
 \alias{read_ssdse_e}
 \title{Read specific SSDSE data file}
 \usage{
@@ -12,6 +13,8 @@ read_ssdse_a(path, lang, pack = TRUE, ...)
 read_ssdse_b(path, lang, pack = TRUE, ...)
 
 read_ssdse_c(path, lang, ...)
+
+read_ssdse_d(path, lang, ...)
 
 read_ssdse_e(path, version = 2, lang, ...)
 }
