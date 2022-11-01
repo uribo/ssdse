@@ -98,6 +98,35 @@ tweak_ssdse_out <- function(data, id, lang, pack) {
   d
 }
 
+#' @param version file version
+#' @export
+#' @rdname read_ssdse
+read_ssdse_e <- function(path, version = 2, lang, ...) {
+  lang <-
+    rlang::arg_match(lang,
+                     c("en", "ja"))
+  d <-
+    tibble::as_tibble(
+      utils::read.csv(path,
+                      skip = 0,
+                      fileEncoding = "Shift_JIS"))
+
+  d <-
+    d[-c(1, 2), ]
+  d <-
+    d %>%
+    readr::type_convert(
+      col_types = readr::cols(
+        .default = readr::col_integer(),
+        SSDSE.E.2022v2 = readr::col_character(),
+        prefecture = readr::col_character(),
+        A4103 = readr::col_double(),
+        H2130 = readr::col_double(),
+        H5614 = readr::col_double()))
+  tweak_ssdse_out(d, id = "E", lang, pack = FALSE) %>%
+    prefix_ssdse_e_year()
+}
+
 pack_ssdse_vars <- function(data) {
   data %>%
     tidyr::pack(
@@ -166,4 +195,27 @@ convert_ssdse_colname <- function(data, id, lang) {
       tibble::deframe()
   }
   dplyr::rename(data, !!!ssdse_colnames)
+}
+
+prefix_ssdse_e_year <- function(data) {
+  purrr::set_names(data,
+                   c(colnames(data)[1:2],
+                     paste(colnames(data)[-c(1,2)],
+                           c(rep("2020", 19),
+                             rep("2017", 3),
+                             rep("2016", 16),
+                             rep("2019", 5),
+                             rep("2020", 12),
+                             rep("2018", 5),
+                             "2016",
+                             "2018",
+                             rep("2020", 3),
+                             rep("2018", 5),
+                             rep("2019", 5),
+                             rep("2016", 3),
+                             rep("2019", 3),
+                             rep("2018", 3),
+                             rep("2019", 2),
+                             rep("2020", 4)),
+                           sep = "_")))
 }
