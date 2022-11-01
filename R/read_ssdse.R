@@ -12,17 +12,9 @@ read_ssdse_a <- function(path, lang, pack = TRUE, ...) {
     rlang::arg_match(lang,
                      c("en", "ja"))
   d <-
-    tibble::as_tibble(
-      utils::read.csv(path,
-               skip = 0,
-               fileEncoding = "Shift_JIS"))
-  # # assertr::verify(d, dim(d) == c(1743, 127))
-  # year
+    .read_ssdse_csv(path)
   d <-
     d[-1, ]
-  d <-
-    d[-1, ]
-
   d <-
     d %>%
     readr::type_convert(col_types = readr::cols(
@@ -40,14 +32,7 @@ read_ssdse_b <- function(path, lang, pack = TRUE, ...) {
     rlang::arg_match(lang,
                      c("en", "ja"))
   d <-
-    tibble::as_tibble(
-      utils::read.csv(path,
-               skip = 0,
-               fileEncoding = "Shift_JIS"))
-  # assertr::verify(d, dim(d) == c(565, 110)) # B
-  d <-
-    d[-1, ]
-
+    .read_ssdse_csv(path)
   d <-
     d %>%
     readr::type_convert(col_types = readr::cols(
@@ -64,12 +49,7 @@ read_ssdse_c <- function(path, lang, ...) {
     rlang::arg_match(lang,
                      c("en", "ja"))
   d <-
-    tibble::as_tibble(
-      utils::read.csv(path,
-                      skip = 0,
-                      fileEncoding = "Shift_JIS"))
-  d <-
-    d[-1, ]
+    .read_ssdse_csv(path)
   d <-
     d %>%
     readr::type_convert(
@@ -106,13 +86,9 @@ read_ssdse_e <- function(path, version = 2, lang, ...) {
     rlang::arg_match(lang,
                      c("en", "ja"))
   d <-
-    tibble::as_tibble(
-      utils::read.csv(path,
-                      skip = 0,
-                      fileEncoding = "Shift_JIS"))
-
+    .read_ssdse_csv(path)
   d <-
-    d[-c(1, 2), ]
+    d[-c(1), ]
   d <-
     d %>%
     readr::type_convert(
@@ -218,4 +194,13 @@ prefix_ssdse_e_year <- function(data) {
                              rep("2019", 2),
                              rep("2020", 4)),
                            sep = "_")))
+}
+
+.read_ssdse_csv <- function(path) {
+  d <-
+    tibble::as_tibble(
+    utils::read.csv(path,
+                    skip = 0,
+                    fileEncoding = "Shift_JIS"))
+  d[-1, ]
 }
